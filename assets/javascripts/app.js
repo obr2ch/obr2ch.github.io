@@ -13,10 +13,16 @@ function switchView() {
 
     if ($this.hasClass('js-list-view')) {
       $('.chart-view').hide();
+      $('.walk-view').hide();
       $('.list-view').show();
     } else if ($this.hasClass('js-chart-view')) {
       $('.list-view').hide();
+      $('.walk-view').hide();
       $('.chart-view').show();
+    } else if ($this.hasClass('js-walk-view')) {
+      $('.list-view').hide();
+      $('.chart-view').hide();
+      $('.walk-view').show();
     }
   });
 };
@@ -27,6 +33,7 @@ function prepareData(data) {
     usd.push(parseFloat(val.usd));
     dates.push(val.date);
     threads.push(val.threads);
+
 
     var th = '';
     var keys = Object.keys(val.threads).toString().split(',');
@@ -41,6 +48,7 @@ function prepareData(data) {
                       '<span class="usd">$1 = ' + val.usd + '&#8381;</span>' +
                     '</div>' +
                     '<div class="list-view-body">' + th + '</div>' +
+                    '<div class="walk-count"><span>Гуляний:</span> ' + keys.length + '</div>' +
                   '</li>' +
                 '</ul>';
   });
@@ -133,7 +141,6 @@ function buildChart(data) {
               }
               $el.find('.threads').html(th);
             }
-
           }
         }
       }
@@ -143,7 +150,19 @@ function buildChart(data) {
 
 
 function buildListView(data) {
-  $('.list-view-container').html(listView);
+  $('.list-view .list-view-container').html(listView);
+};
+
+function buildWalkView(data) {
+  var walkView = listView;
+
+  var children = $(walkView).detach();
+
+  children.sort(function(a, b) {
+    return $(b).children().children('.list-view-body').children().length - $(a).children().children('.list-view-body').children().length;
+  });
+
+  $('.walk-view .list-view-container').html(children);
 };
 
 
@@ -156,6 +175,7 @@ $(function() {
       prepareData(d);
       buildChart(d);
       buildListView(d);
+      buildWalkView(d);
     },
     error: function (xhr, errorText) {
       console.log('Error ' + xhr.responseText);

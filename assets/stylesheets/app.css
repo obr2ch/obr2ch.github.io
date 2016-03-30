@@ -167,12 +167,12 @@ body {
 }
 
 
-.list-view {
+.list-view, .walk-view {
   display: none;
   overflow: hidden;
 }
 
-.list-view ul {
+.list-view-container ul {
   display: inline-block;
   vertical-align: top;
   margin: 0 40px 60px 0;
@@ -211,10 +211,26 @@ body {
   color: #f60;
 }
 
-.list-view h2 {
+.list-view h2, .walk-view h2 {
   font-weight: 300;
   font-size: 26px;
   margin-bottom: 40px;
   text-align: center;
 }
 
+.list-view .walk-count {
+  display: none;
+}
+
+.walk-view .walk-count {
+  display: block;
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid #ccc;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.walk-view .walk-count span {
+  color: #00d19f;
+}
